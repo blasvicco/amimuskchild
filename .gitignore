@@ -1,0 +1,13 @@
+.DS_Store
+.vscode
+.api.secrets
+
+node_modules
+yarn.lock
+.env
+.env.dev
+.env.prod
+
+__pycache__
+static
+**.sqlite3
