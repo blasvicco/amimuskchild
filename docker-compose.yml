@@ -1,0 +1,26 @@
+services:
+  amimuskchild-ba:
+    build:
+      context: .
+      dockerfile: ./hub/python/Dockerfile
+    command: 'tail -f /dev/null'
+    container_name: amimuskchild-ba
+    env_file: ./app/backend/.env.dev
+    environment:
+      - ALLOWED_HOSTS=blas.local
+    volumes:
+      - ./app/backend:/home/app
+      - ./app/model:/home/app/model
+    ports:
+      - '80:80'
+
+  amimuskchild-fa:
+    build:
+      context: .
+      dockerfile: ./hub/node/Dockerfile
+    command: 'tail -f /dev/null'
+    container_name: amimuskchild-fa
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./app/frontend:/home/app

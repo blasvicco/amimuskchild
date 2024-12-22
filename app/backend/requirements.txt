@@ -1,0 +1,11 @@
+cffi
+Django
+django-cors-headers
+django-oauth-toolkit
+djangorestframework
+gunicorn
+opencv-python
+pyhumps
+pylint
+pylint-django
+tzdata
