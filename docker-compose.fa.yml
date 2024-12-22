@@ -1,0 +1,11 @@
+services:
+  fa:
+    build:
+      context: .
+      dockerfile: ./hub/node/Dockerfile
+    command: 'tail -f /dev/null'
+    container_name: amimuskchild-fa
+    volumes:
+      - ./app/frontend:/home/app
+    ports:
+      - '5173:5173'
