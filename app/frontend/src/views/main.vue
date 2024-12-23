@@ -90,7 +90,7 @@
         <p>3. Let our highly advanced (and mildly ridiculous) AI work its magic to reveal your possibly billionaire heritage.</p>
         <p>P.S. Don’t worry about your data—we couldn’t store it even if we wanted to. We’re broke, remember?</p>
       </a-card>
-      <a-card title="Simple form" :bordered="false">
+      <a-card title="Questionnaire" :bordered="false">
         <p>Which color gets your billionaire vibes going?</p>
         <a-radio-group v-model:value="colour">
           <a-radio value="0">Blue (like the Tesla car you wish you had)</a-radio>
