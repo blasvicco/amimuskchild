@@ -51,6 +51,21 @@
     }
     if (info.file.status === 'error') {
       loading.value = false;
+      if (info.file.response && ) {
+        const options = {
+          0: 'an abstract art piece',
+          1: 'a picture of an orange',
+          2: 'a Renaissance sculpture',
+          3: 'a Pixar movie character',
+          4: 'an extinct animal',
+          5: 'a creature from outer space',
+          6: 'what you had for breakfast',
+        }[Math.floor(Math.random() * 7)];
+        return message.error({
+          'IMAGE_DOES_NOT_CONTAIN_A_FACE': `Hmm... our AI says, "No face detected."" Is this ${options}? Let’s try again!`,
+          'NOT_VALID_FACE_FILE_SIZE_TOO_LARGE': 'File size too large.',
+        }[info.file.response[0]]);
+      }
       message.error('upload error');
     }
   };
@@ -60,11 +75,11 @@
     if (!isJpgOrPng) {
       message.error('You can only upload JPG file!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
+    const isSmallFileSize = file.size / 1024 / 1024 <= 0.5;
+    if (!isSmallFileSize) {
+      message.error('Image must smaller than 0.5MB. Sorry.');
     }
-    return isJpgOrPng && isLt2M;
+    return isJpgOrPng && isSmallFileSize;
   };
 
   const getTokens = async () => {
