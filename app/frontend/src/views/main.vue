@@ -62,7 +62,7 @@
           6: 'what you had for breakfast',
         }[Math.floor(Math.random() * 7)];
         return message.error({
-          'IMAGE_DOES_NOT_CONTAIN_A_FACE': `Hmm... our AI says, "No face detected."" Is this ${options}? Let’s try again!`,
+          'IMAGE_DOES_NOT_CONTAIN_A_FACE': `Hmm... our AI says, "No face detected". Is this ${options}? Let’s try again!`,
           'NOT_VALID_FACE_FILE_SIZE_TOO_LARGE': 'File size too large.',
         }[info.file.response[0]]);
       }
