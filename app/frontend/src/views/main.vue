@@ -51,7 +51,7 @@
     }
     if (info.file.status === 'error') {
       loading.value = false;
-      if (info.file.response && ) {
+      if (info.file.response && info.file.response[0]) {
         const options = {
           0: 'an abstract art piece',
           1: 'a picture of an orange',
