@@ -21,7 +21,10 @@
   let headers = reactive({ value: false });
   let response = reactive({ value: false });
 
-  const reload = () => window.location.reload();
+  const reload = () => {
+    imageUrl.value = '';
+    response.value = false;
+  }
 
   const getBase64 = (img, callback) => {
     const reader = new FileReader();
@@ -62,7 +65,7 @@
           6: 'what you had for breakfast',
         }[Math.floor(Math.random() * 7)];
         return message.error({
-          'IMAGE_DOES_NOT_CONTAIN_A_FACE': `Hmm... our AI says, "No face detected". Is this ${options}? Let’s try again!`,
+          'IMAGE_DOES_NOT_CONTAIN_A_FACE': `Hmm... our AI says, "No face detected". Is this image about ${options}? Let’s try again!`,
           'NOT_VALID_FACE_FILE_SIZE_TOO_LARGE': 'File size too large.',
         }[info.file.response[0]]);
       }
@@ -127,11 +130,11 @@
         </a-radio-group>
       </a-card>
       <a-card title="Upload you picture" :bordered="false">
-        <p>And now, the moment of truth! Snap a selfie or upload your best Elon-esque photo. Based on your answers and our AI’s totally serious calculations, we’ll deliver your fate:</p>
+        <p>And now, the moment of truth! Snap a selfie or upload your best Elon-esque photo.</p>
+        <p>Based on your answers and our AI’s totally serious calculations, we’ll deliver your fate:</p>
         <a-flex align="center" gap="middle">
           <a-space direction="horizontal">
-            <a-avatar v-if="!response.value || response.value.prediction === 'MUSK'" :size="64" :src="musk" />
-            <a-avatar v-else :size="64" :src="trump" />
+            <a-avatar :size="64" :src="musk" />
             <div>→</div>
             <a-avatar v-if="imageUrl" :size="64" :src="imageUrl" />
             <a-upload
@@ -153,13 +156,17 @@
                 <div class="ant-upload-text">Upload</div>
               </div>
             </a-upload>
-            <div>=</div>
-            <a-card v-if="response.value">
-              <div><p>{{ AppAPI.Facecheck.interpret(response.value) }}</p></div>
-              <div><button @click="reload()">Try again!</button></div>
-            </a-card>
           </a-space>
         </a-flex>
+      </a-card>
+      <a-card v-if="response.value" title="Your AI Prediction" :bordered="false">
+        <div><p>{{ AppAPI.Facecheck.interpret(response.value) }}</p></div>
+        <a-space v-if="response.value && response.value.prediction === 'TRUMP'" direction="horizontal">
+          <a-avatar :size="64" :src="trump" />
+          <div>→</div>
+          <a-avatar v-if="imageUrl" :size="64" :src="imageUrl" />
+        </a-space>
+        <div style="margin-top: 20px;"><button @click="reload()">Try again!</button></div>
       </a-card>
     </a-space>
   </div>
