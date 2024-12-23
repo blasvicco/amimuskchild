@@ -20,7 +20,7 @@ from drf_api.validators import VFileMimeType, VFileSize, VIsFace
 
 # constants
 FACE_ACCEPTED_MIMETYPES = ['image/png', 'image/jpeg']
-FACE_FILE_SIZE = 500000 # 0.5mb
+FACE_FILE_SIZE = 5000000 # 2.0mb
 LABEL = {0:'TRUMP', 1:'MUSK'} # original labels for the model = {0:'OLD', 1:'YOUNG'}
 RESIZE_TO = '64x64'
 

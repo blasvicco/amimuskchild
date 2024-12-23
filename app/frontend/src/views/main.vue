@@ -78,7 +78,7 @@
     if (!isJpgOrPng) {
       message.error('You can only upload JPG file!');
     }
-    const isSmallFileSize = file.size / 1024 / 1024 <= 0.5;
+    const isSmallFileSize = file.size / 1024 / 1024 <= 5.0;
     if (!isSmallFileSize) {
       message.error('Image must smaller than 0.5MB. Sorry.');
     }
