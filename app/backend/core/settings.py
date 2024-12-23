@@ -164,3 +164,31 @@ EMAIL_USE_TLS = True
 FILE_UPLOAD_HANDLERS = [
   'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 ]
+
+LOGGING = {
+  'disable_existing_loggers': False,
+  'filters': {
+    'require_debug_false': {
+      '()': 'django.utils.log.RequireDebugFalse',
+    },
+  },
+  'handlers': {
+    'file': {
+      'level': 'ERROR',
+      'class': 'logging.FileHandler',
+      'filename': '/home/app/logs/django-error.log',
+    },
+    'null': {
+      'level': 'DEBUG',
+      'class': 'logging.NullHandler',
+    },
+  },
+  'loggers': {
+    'django': {
+      'handlers': ['file'],
+      'level': 'ERROR',
+      'propagate': True,
+    },
+  },
+  'version': 1,
+}

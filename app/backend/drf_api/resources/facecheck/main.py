@@ -1,18 +1,20 @@
 '''DRF facecheck viewset'''
 
 # General imports
+import json
 import os
 
 # Lib imports
 import cv2
 import numpy as np
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from tensorflow.keras.models import load_model
 
 # App imports
+from drf_api.models import MLog
 from drf_api.resources.facecheck.permission import PFacecheck
 from drf_api.validators import VFileMimeType, VFileSize, VIsFace
 
@@ -55,11 +57,20 @@ class VSFacecheck(viewsets.ViewSet):
 			)
 			predictions = model.predict(input_img)
 			index = int(np.argmax(predictions, axis=1))
-			return Response({
-				'confidence': predictions[0][index],
+			response = {
+				'confidence': str(predictions[0][index]),
 				'prediction': LABEL[index],
+			}
+			MLog.objects.create(**{
+				'action': 'predict',
+				'actor': 'visitor',
+				'payload': json.dumps({
+					'request_headers': MLog.get_headers(request),
+					'response': response,
+				}),
 			})
-		return Response({'face': None})
+			return Response(response)
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 	@staticmethod
 	def pre_process_img(face_img):
