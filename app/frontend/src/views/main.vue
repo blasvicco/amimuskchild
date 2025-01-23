@@ -8,16 +8,18 @@
   import AppAPI from '@/modules/api';
 
   // Assets imports
+  import hitler from "@/assets/img/hitler.jpeg";
   import musk from "@/assets/img/musk.jpeg";
   import putin from "@/assets/img/putin.jpeg";
   import trump from "@/assets/img/trump.jpeg";
 
-  const colour = ref(0);
-  const animal = ref(0);
-  const dictator = ref(0);
+  const colour = ref("0");
+  const animal = ref("0");
+  const dictator = ref("0");
   const fileList = ref([]);
   const loading = ref(false);
   const imageUrl = ref('');
+  const character = Math.round(Math.random());
   let headers = reactive({ value: false });
   let response = reactive({ value: false });
 
@@ -66,8 +68,9 @@
         }[Math.floor(Math.random() * 7)];
         return message.error({
           'IMAGE_DOES_NOT_CONTAIN_A_FACE': `Hmm... our AI says, "No face detected". Is this image about ${options}? Let’s try again!`,
+          'MULTIPLE_FACES_DETECTED': 'There’s more than one face in the picture—you’ll need to be more specific Professor Genius.',
           'NOT_VALID_FACE_FILE_SIZE_TOO_LARGE': 'File size too large.',
-        }[info.file.response[0]]);
+        }[info.file.response[0]], 5);
       }
       message.error('upload error');
     }
@@ -80,7 +83,7 @@
     }
     const isSmallFileSize = file.size / 1024 / 1024 <= 5.0;
     if (!isSmallFileSize) {
-      message.error('Image must smaller than 0.5MB. Sorry.');
+      message.error('Image must smaller than 5MB. Sorry.');
     }
     return isJpgOrPng && isSmallFileSize;
   };
@@ -121,8 +124,8 @@
         </a-radio-group>
         <a-flex align="center" gap="middle">
           <p>What does this character inspire in you?</p>
-          <a-avatar :size="64" :src="putin" />
         </a-flex>
+        <div><a-avatar :size="100" :src="[hitler, putin][character]" /> <span style="font-size: 15px;">👈🏽 The Character</span></div>
         <a-radio-group v-model:value="dictator">
           <a-radio value="1">I don’t know who this is, and I’m slightly concerned.</a-radio>
           <a-radio value="0">Nope. Not a fan.</a-radio>
@@ -134,9 +137,9 @@
         <p>Based on your answers and our AI’s totally serious calculations, we’ll deliver your fate:</p>
         <a-flex align="center" gap="middle">
           <a-space direction="horizontal">
-            <a-avatar :size="64" :src="musk" />
+            <a-avatar :size="100" :src="musk" />
             <div>→</div>
-            <a-avatar v-if="imageUrl" :size="64" :src="imageUrl" />
+            <a-avatar v-if="imageUrl" :size="100" :src="imageUrl" />
             <a-upload
               v-else
               v-model:file-list="fileList"
@@ -162,9 +165,9 @@
       <a-card v-if="response.value" title="Your AI Prediction" :bordered="false">
         <div><p>{{ AppAPI.Facecheck.interpret(response.value) }}</p></div>
         <a-space v-if="response.value && response.value.prediction === 'TRUMP'" direction="horizontal">
-          <a-avatar :size="64" :src="trump" />
+          <a-avatar :size="100" :src="trump" />
           <div>→</div>
-          <a-avatar v-if="imageUrl" :size="64" :src="imageUrl" />
+          <a-avatar v-if="imageUrl" :size="100" :src="imageUrl" />
         </a-space>
         <div style="margin-top: 20px;"><button @click="reload()">Try again!</button></div>
       </a-card>
